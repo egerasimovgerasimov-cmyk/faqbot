@@ -38,9 +38,6 @@ faqbot = "faqbot.cli:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/faqbot"]
 
-[tool.hatch.build.targets.wheel.force-include]
-"src/faqbot/widget" = "faqbot/widget"
-
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
