@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>faqbot — offline FAQ chatbot</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/widget.css" />
+    <style>
+      :root {
+        --ink: #101828;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --accent: #2f6fed;
+        --bg: #f8fafc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 420px at 8% -10%, #e8efff 0%, transparent 60%),
+          radial-gradient(700px 380px at 100% 0%, #f1ebff 0%, transparent 55%),
+          var(--bg);
+      }
+      main { max-width: 860px; margin: 0 auto; padding: 64px 24px 120px; }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.08; margin: 18px 0 14px; letter-spacing: -0.02em; }
+      h1 span { color: var(--accent); }
+      .lead { max-width: 640px; margin: 0 0 28px; color: var(--muted); font-size: 18px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+      .btn {
+        display: inline-block;
+        padding: 11px 18px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+      }
+      .btn--primary { background: var(--accent); color: #fff; }
+      .btn--ghost { background: #fff; border-color: var(--line); color: var(--ink); }
+      .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+      .card {
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgb(255 255 255 / 80%);
+      }
+      .card h3 { margin: 0 0 6px; font-size: 15px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; }
+      h2 { margin: 56px 0 16px; font-size: 22px; letter-spacing: -0.01em; }
+      pre {
+        overflow-x: auto;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #0f172a;
+        color: #e2e8f0;
+        font-size: 13.5px;
+        line-height: 1.55;
+      }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      p code, li code { padding: 1px 5px; border-radius: 6px; background: #eef2f7; font-size: 90%; }
+      .try { color: var(--muted); font-size: 14px; }
+      .try b { color: var(--ink); }
+      footer { margin-top: 64px; color: var(--muted); font-size: 13px; }
+      @media (max-width: 640px) {
+        main { padding-top: 40px; }
+        .fb-root { bottom: 16px; right: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="badge">Python · no ML · runs offline</span>
+      <h1>Answers, not <span>hallucinations</span>.</h1>
+      <p class="lead">
+        faqbot matches a visitor's question against your own knowledge base.
+        No API keys, no vector database, no data leaving your server — just a
+        small, testable engine you can read in one sitting.
+      </p>
+      <div class="actions">
+        <a class="btn btn--primary" href="#chat" id="open-chat">Ask the demo bot</a>
+        <a class="btn btn--ghost" href="/docs">Open API docs</a>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Understands Russian morphology</h3>
+          <p>Light stemming and synonyms keep «путёвка», «путёвки» and «путёвок» together. English works too.</p>
+        </div>
+        <div class="card">
+          <h3>Admits uncertainty</h3>
+          <p>Low confidence triggers a fallback with related topics, not a random answer.</p>
+        </div>
+        <div class="card">
+          <h3>Asks before guessing</h3>
+          <p>Two close matches produce a clarifying question with clickable options.</p>
+        </div>
+        <div class="card">
+          <h3>Remembers the thread</h3>
+          <p>Follow-ups like «а сколько дней?» reuse the previous question for context.</p>
+        </div>
+      </div>
+
+      <h2>One file is the whole knowledge base</h2>
+      <pre><code>bot:
+  name: Солнышко
+  greeting: Привет! Спросите про путёвки и смены.
+  fallback: Не нашёл ответа — напишите оператору.
+  threshold: 0.45
+
+synonyms:
+  - "путёвка = тур, поездка, путевка"
+
+qa:
+  - question: Сколько стоит путёвка?
+    answer: От 42 000 до 58 000 ₽ за 14 дней.
+    keywords: цена стоимость
+    category: Путёвки
+    priority: 10</code></pre>
+
+      <h2>Run it</h2>
+      <pre><code>pip install -e ".[api]"
+faqbot --kb examples/camp/kb.yaml serve --port 8000</code></pre>
+      <p class="try">
+        Then open <b>http://127.0.0.1:8000</b> and ask
+        <b>«сколько стоит путёвка»</b>, <b>«а сколько дней?»</b> or
+        <b>«какие документы нужны»</b>.
+      </p>
+
+      <footer>
+        Demo data is fictional. The engine and the widget live in the
+        <a href="https://github.com/">faqbot</a> repository under the MIT license.
+      </footer>
+    </main>
+
+    <script src="/widget.js"></script>
+    <script>
+      document.getElementById("open-chat").addEventListener("click", function (event) {
+        event.preventDefault();
+        document.querySelector(".fb-launcher").click();
+      });
+    </script>
+  </body>
+</html>

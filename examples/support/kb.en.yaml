@@ -1,0 +1,110 @@
+# A small English knowledge base: fictional analytics product support.
+# Handy for checking that the same engine works for English out of the box.
+
+bot:
+  name: Acme Helper
+  greeting: Hi! I answer questions about Acme Analytics from the docs.
+  fallback: I do not know that one yet. Please contact support@acme.example.
+  threshold: 0.45
+  operator_label: Email support
+  operator_url: mailto:support@acme.example
+
+quick:
+  - label: How much does it cost?
+    query: How much does Acme Analytics cost?
+  - label: Is there a free trial?
+    query: Is there a free trial?
+  - label: How do I export data?
+    query: How do I export my data?
+  - label: How do I cancel?
+    query: How do I cancel my subscription?
+
+synonyms:
+  - "price = cost, pricing, plan, how much"
+  - "cancel = cancellation, unsubscribe, stop subscription"
+  - "export = download, dump, csv"
+  - "support = help, contact, email"
+
+qa:
+  - question: How much does Acme Analytics cost?
+    answer: >-
+      Plans start at $19 per month for one seat. The Team plan is $49 per
+      month and includes five seats, shared dashboards and API access.
+    keywords: price pricing plan cost billing
+    category: Billing
+    priority: 10
+
+  - question: Is there a free trial?
+    answer: >-
+      Yes, every plan starts with a 14-day trial. No credit card is required,
+      and your data is kept if you decide to subscribe.
+    keywords: trial free demo test period
+    category: Billing
+    priority: 8
+
+  - question: How do I cancel my subscription?
+    answer: >-
+      Open Settings → Billing → Cancel plan. Access stays active until the end
+      of the paid period, and you can export your data before it closes.
+    keywords: cancel cancellation unsubscribe stop subscription plan
+    category: Billing
+    priority: 6
+
+  - question: Do you offer refunds?
+    answer: >-
+      We refund the current month if you cancel within seven days of a charge.
+      Email support@acme.example with your invoice number.
+    keywords: refund money back charge
+    category: Billing
+    priority: 4
+
+  - question: How do I export my data?
+    answer: >-
+      Go to Settings → Data → Export. You will get a ZIP with CSV files for
+      every dataset and a JSON file with dashboard definitions. Large exports
+      are emailed when ready.
+    keywords: export download csv backup data
+    category: Data
+    priority: 8
+
+  - question: Can I use the API?
+    answer: >-
+      Yes. The REST API is available on the Team plan. Create a token in
+      Settings → API and send it as a Bearer token. Rate limit: 120 requests
+      per minute.
+    keywords: api token rest integration developer
+    category: Integrations
+    priority: 7
+
+  - question: Is my data GDPR compliant?
+    answer: >-
+      Yes. Data is stored in the EU, encrypted at rest and in transit, and we
+      sign a DPA on request. You can delete your workspace and all its data
+      at any time.
+    keywords: gdpr privacy security dpa encryption
+    category: Security
+    priority: 6
+
+  - question: How many seats are included?
+    answer: >-
+      The Starter plan includes one seat, the Team plan five, and extra seats
+      cost $8 each per month. Viewers with read-only access are free.
+    keywords: seats users team members
+    category: Billing
+    priority: 5
+
+  - question: Do you support single sign-on?
+    answer: >-
+      SAML SSO is available on the Business plan. Configure it in Settings →
+      Security → SSO; we support Okta, Azure AD and Google Workspace.
+    keywords: sso saml login okta azure google
+    category: Security
+    priority: 4
+
+  - question: What are your support hours?
+    answer: >-
+      We answer email from Monday to Friday, 9:00–18:00 CET. Business plan
+      customers get a four-hour response SLA and a shared Slack channel.
+    keywords: support hours contact sla help
+    category: Support
+    priority: 5

@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "faqbot"
+version = "0.3.0"
+description = "Offline FAQ chatbot: stemming, synonyms, IDF scoring, REST API, widget and Telegram adapter"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Egor Gerasimov" }]
+requires-python = ">=3.10"
+keywords = ["faq", "chatbot", "telegram", "search", "russian", "nlp"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Communications :: Chat",
+]
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.27", "httpx>=0.27"]
+telegram = ["aiogram>=3.4"]
+dev = ["pytest>=8.0", "httpx>=0.27", "ruff>=0.4"]
+
+[project.urls]
+Homepage = "https://github.com/egerasimovgerasimov-cmyk/faqbot"
+Issues = "https://github.com/egerasimovgerasimov-cmyk/faqbot/issues"
+
+[project.scripts]
+faqbot = "faqbot.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/faqbot"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/faqbot/widget" = "faqbot/widget"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
