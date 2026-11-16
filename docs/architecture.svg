@@ -67,7 +67,7 @@
   <path class="flow" d="M428 82 H464"/>
   <path class="flow" d="M668 82 H704"/>
   <path class="flow" d="M572 146 V160 Q572 172 560 172 H352 Q338 172 338 184 V190"/>
-  <path class="flow-dash" d="M338 282 V300 Q338 312 352 312 H656 Q668 312 668 300 V288"/>
+  <path class="flow-dash" d="M338 282 V300 Q338 312 352 312 H656 Q668 312 668 300 V286"/>
 
   <!-- captions -->
   <text class="b" x="24" y="324">The matcher is a pure function: the same question always gets the same score, so answers can be tested and debugged.</text>
